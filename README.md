@@ -129,7 +129,7 @@ Traceback (most recent call last):
         1: from (irb):3
 NoMethodError (undefined method `deduct' for #<Oystercard:0x00007fde3490d4a8 @balance=20>)
 ```
-
+---
 ```
 In order to get through the barriers.
 As a customer
@@ -152,7 +152,7 @@ Traceback (most recent call last):
         1: from (irb):3
 NoMethodError (undefined method `in_journey?' for #<Oystercard:0x00007f978d8fe8b0 @balance=0>)
 ```
-
+---
 ```
 In order to pay for my journey
 As a customer
@@ -174,3 +174,54 @@ Makerss-MacBook-Pro:oystercard student$ irb -r ./lib/oystercard.rb
  => true
 ```
 This should raise an error because the balance is 0!
+
+---
+
+```
+In order to pay for my journey
+As a customer
+When my journey is complete, I need the correct amount deducted from my card
+```
+
+Objects | Messages
+-|-
+card  |  deduct minimum fare at touch_out
+customer  |
+```
+2.6.0 :001 > card = Oystercard.new
+ => #<Oystercard:0x00007fc9098e0178 @balance=0, @travelling=false>
+2.6.0 :002 > card.top_up(90)
+ => 90
+2.6.0 :003 > card.touch_in
+ => true
+2.6.0 :004 > card.touch_out
+ => false
+2.6.0 :005 > card.balance
+ => 90
+ ```
+ The balance should have been reduced by the minimum fare after touching out.
+ ---
+ ```
+In order to pay for my journey
+As a customer
+I need to know where I've travelled from
+```
+Objects | Messages
+-|-
+card  |  remember journeys
+customer  |
+```
+2.6.0 :001 > card = Oystercard.new
+ => #<Oystercard:0x00007fa7d7148918 @balance=0, @travelling=false>
+2.6.0 :002 > card.top_up(20)
+ => 20
+2.6.0 :003 > card.touch_in
+ => true
+2.6.0 :004 > card.entry_station
+Traceback (most recent call last):
+        4: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/student/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):4
+NoMethodError (undefined method `entry_station' for #<Oystercard:0x00007fa7d7148918 @balance=20, @travelling=true>)
+```
