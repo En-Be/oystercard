@@ -3,11 +3,13 @@ require 'oystercard'
 describe Oystercard do
   #let(:card) { Oystercard.new }
   let(:station) {double("station")}
+  let(:station2) {double("station2")}
 
   def top_up_touch_in
     subject.top_up(10)
     subject.touch_in(station)
   end
+
   it 'has 0 balance by default' do
     expect(subject.balance).to eq(0)
   end
@@ -38,19 +40,19 @@ describe Oystercard do
     expect(subject.in_journey?).to eq(true)
   end
 
-  it 'touch_in should change in_journey? to true' do # alternative test with predicate matcher
+  it 'touch_in should change in_journey? to true ALT' do # alternative test with predicate matcher
     top_up_touch_in
     expect(subject).to be_in_journey
   end
 
   it 'touch_out should change in_journey? to false' do
     top_up_touch_in
-    expect { subject.touch_out }.to change { subject.in_journey? }.to(false).from(true)
+    expect { subject.touch_out(station2) }.to change { subject.in_journey? }.to(false).from(true)
   end
 
-  it 'touch_out should change in_journey? to false' do # alternative test with predicate matcher
+  it 'touch_out should change in_journey? to false ALT' do # alternative test with predicate matcher
     top_up_touch_in
-    subject.touch_out
+    subject.touch_out(station2)
     expect(subject).not_to be_in_journey
   end
 
@@ -59,7 +61,7 @@ describe Oystercard do
   end
 
   it 'touching out should reduce balance by minimum fare' do
-    expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::DEFAULT_MINIMUM)
+    expect { subject.touch_out(station2) }.to change { subject.balance }.by(-Oystercard::DEFAULT_MINIMUM)
   end
 
   it 'should be able to check the entry station' do
@@ -70,6 +72,12 @@ describe Oystercard do
 
   it 'touch_out should change entry_station to nil' do
     top_up_touch_in
-    expect { subject.touch_out } .to change { subject.entry_station } .to (nil)
+    expect { subject.touch_out(station2) } .to change { subject.entry_station } .to (nil)
+  end
+
+  it 'should store journeys' do
+    top_up_touch_in
+    subject.touch_out(station2)
+    expect(subject.journeys).to eq({station => station2})
   end
 end

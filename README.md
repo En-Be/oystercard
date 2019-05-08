@@ -208,7 +208,7 @@ I need to know where I've travelled from
 ```
 Objects | Messages
 -|-
-card  |  remember journeys
+card  |  remember entry station
 customer  |
 ```
 2.6.0 :001 > card = Oystercard.new
@@ -225,3 +225,31 @@ Traceback (most recent call last):
         1: from (irb):4
 NoMethodError (undefined method `entry_station' for #<Oystercard:0x00007fa7d7148918 @balance=20, @travelling=true>)
 ```
+---
+```
+In order to know where I have been
+As a customer
+I want to see all my previous trips
+```
+Objects | Messages
+-|-
+card  |  remember journeys
+customer  |
+```
+2.6.0 :001 > card = Oystercard.new
+ => #<Oystercard:0x00007ff8e709fe88 @balance=0, @entry_station=nil>
+2.6.0 :002 > card.top_up(10)
+ => 10
+2.6.0 :003 > card.touch_in('station')
+ => "station"
+2.6.0 :004 > card.touch_out
+ => nil
+2.6.0 :005 > card.journey_history
+Traceback (most recent call last):
+        4: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/student/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):5
+NoMethodError (undefined method `journey_history' for #<Oystercard:0x00007ff8e709fe88 @balance=9, @entry_station=nil>)
+```
+Expect journey_history to return a history of journeys on the card.
