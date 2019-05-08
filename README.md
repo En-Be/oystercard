@@ -103,3 +103,74 @@ Traceback (most recent call last):
 RuntimeError (Balance can't be more than 90)
 ```
 ---
+
+```
+In order to pay for my journey
+As a customer
+I need my fare deducted from my card
+```
+
+Objects | Messages
+-|-
+card  |  deduct fare
+customer  |
+
+```
+Makerss-MacBook-Pro:oystercard student$ irb -r './lib/oystercard'
+2.6.0 :001 > card = Oystercard.new
+ => #<Oystercard:0x00007fde3490d4a8 @balance=0>
+2.6.0 :002 > card.top_up(20)
+ => 20
+2.6.0 :003 > card.deduct(10)
+Traceback (most recent call last):
+        4: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/student/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `deduct' for #<Oystercard:0x00007fde3490d4a8 @balance=20>)
+```
+
+```
+In order to get through the barriers.
+As a customer
+I need to touch in and out.
+```
+
+Objects | Messages
+-|-
+card  |  in_journey?, touch_in, touch_out
+customer  |
+
+```
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f978d8fe8b0 @balance=0>
+2.6.0 :003 > card.in_journey?
+Traceback (most recent call last):
+        4: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/student/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/student/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `in_journey?' for #<Oystercard:0x00007f978d8fe8b0 @balance=0>)
+```
+
+```
+In order to pay for my journey
+As a customer
+I need to have the minimum amount (£1) for a single journey.
+```
+
+Objects | Messages
+-|-
+card  |  have minimum amount
+customer  |
+
+```
+Makerss-MacBook-Pro:oystercard student$ irb -r ./lib/oystercard.rb
+2.6.0 :001 > card = Oystercard.new
+ => #<Oystercard:0x00007fb52a8ecb00 @balance=0, @travelling=false>
+2.6.0 :002 > card.balance
+ => 0
+2.6.0 :003 > card.touch_in
+ => true
+```
+This should raise an error because the balance is 0!
